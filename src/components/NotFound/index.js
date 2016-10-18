@@ -1,6 +1,5 @@
 import React, {
   Component,
-  PropTypes,
 } from 'react';
 import { Link } from 'react-router';
 import './index.css';
@@ -15,8 +14,5 @@ class NotFound extends Component {
     );
   }
 }
-
-NotFound.propTypes = {};
-NotFound.defaultProps = {};
 
 export default NotFound;

@@ -1,6 +1,5 @@
 import React, {
   Component,
-  PropTypes,
 } from 'react';
 import FlatButton from 'material-ui/FlatButton';
 
@@ -13,8 +12,5 @@ class Login extends Component {
     );
   }
 }
-
-Login.propTypes = {};
-Login.defaultProps = {};
 
 export default Login;

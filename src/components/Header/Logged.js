@@ -1,6 +1,5 @@
 import React, {
   Component,
-  PropTypes,
 } from 'react';
 import { Link } from 'react-router';
 import IconButton from 'material-ui/IconButton';
@@ -26,8 +25,5 @@ class Logged extends Component {
     );
   }
 }
-
-Logged.propTypes = {};
-Logged.defaultProps = {};
 
 export default Logged;

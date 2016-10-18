@@ -42,6 +42,7 @@
   line-height: 1;
   margin: 10px 15px;
   transition: all .25s;
+  font-family: 'Rock Salt', cursive;
 }
 
 .app-logo a:hover {

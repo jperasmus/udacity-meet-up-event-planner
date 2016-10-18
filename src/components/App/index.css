@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Hind|Rock+Salt|Sacramento');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Rock+Salt|Sacramento');
 
 .dark-primary-color    { background: #7B1FA2; }
 .default-primary-color { background: #9C27B0; }
@@ -21,7 +21,7 @@ body {
   font-family: sans-serif;
   color: #212121;
   background: #F9F9F9;
-  font-family: 'Hind', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 body > div {
@@ -36,7 +36,7 @@ a {
 h1,
 h2,
 h3 {
-  font-family: 'Rock Salt', cursive;
+  font-family: 'Open Sans', cursive;
 }
 
 .app {

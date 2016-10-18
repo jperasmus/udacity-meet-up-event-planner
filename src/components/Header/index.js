@@ -1,28 +1,44 @@
-import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import React, { Component } from 'react';
+import AppBar from 'material-ui/AppBar';
+import Login from './Login';
+import Logged from './Logged';
 import './index.css';
 
-const Header = (props) => {
-  return (
-    <header className="app-header">
-      <nav className="app-header-nav">
-        <ul>
-          <li>
-            <Link to="/create-event" activeClassName="active">Create Event</Link>
-          </li>
-          <li>
-            <Link to="/account" activeClassName="active">Account</Link>
-          </li>
-        </ul>
-      </nav>
-      <h2 className="app-logo">
-        <Link to="/">Rendezvous</Link>
-      </h2>
-    </header>
-  );
-};
+class Header extends Component {
+  constructor(props, context) {
+    super(props, context);
+    
+    this.handleTitleTouch = this.handleTitleTouch.bind(this);
 
-Header.propTypes = {};
-Header.defaultProps = {};
+    this.state = {
+      logged: true
+    };
+  }
+  
+  handleTitleTouch() {
+    this.context.router.transitionTo('/');
+  };
+  
+  render() {
+    const styles = {
+      title: {
+        cursor: 'pointer',
+      },
+    };
+    
+    return (
+      <AppBar
+        title={<span style={styles.title}>Rendezvous</span>}
+        onTitleTouchTap={this.handleTitleTouch}
+        showMenuIconButton={false}
+        iconElementRight={this.state.logged ? <Logged /> : <Login />}
+      />
+    );
+  }
+}
+
+Header.contextTypes = {
+  router: React.PropTypes.object
+};
 
 export default Header;

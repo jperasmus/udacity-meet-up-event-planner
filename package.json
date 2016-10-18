@@ -1,14 +1,21 @@
 {
-  "name": "meet-up-event-planner",
+  "name": "udacity-meet-up-event-planner",
   "version": "0.1.0",
   "private": true,
+  "description": "Project 1 of the Senior Web Developer Udacity course.",
+  "author": {
+    "name": "JP Erasmus",
+    "email": "jperasmus11@gmail.com",
+    "website": "https://jperasmus.me"
+  },
   "devDependencies": {
     "react-scripts": "0.6.1"
   },
   "dependencies": {
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-router": "^4.0.0-alpha.4"
+    "react-router": "^4.0.0-alpha.4",
+    "sanitize.css": "^4.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

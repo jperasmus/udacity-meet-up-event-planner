@@ -1,0 +1,50 @@
+.app-header {
+  background-color: #7B1FA2;
+  padding: 15px;
+  color: #FFF;
+}
+
+.app-header-nav {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.app-header-nav ul {
+  list-style: none;
+  margin-right: 30px;
+}
+
+.app-header-nav li {
+  display: inline-block;
+  margin: 0 5px;
+  padding: 10px;
+}
+
+.app-header-nav li a {
+  display: block;
+  transition: all .25s;
+}
+
+.app-header-nav li a.active {
+  border-bottom: 2px solid #FFF;
+}
+
+.app-header-nav li:hover a {
+  color: #E1BEE7;
+  border-color: #E1BEE7;
+}
+
+.app-logo {
+  color: #FFF;
+  text-align: left;
+  font-size: 2rem;
+  line-height: 1;
+  margin: 10px 15px;
+  transition: all .25s;
+}
+
+.app-logo a:hover {
+  color: #E1BEE7;
+  text-shadow: 3px 3px 3px #212121;
+}

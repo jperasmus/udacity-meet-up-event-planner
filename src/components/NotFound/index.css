@@ -1,0 +1,15 @@
+.not-found {
+  text-align: center;
+}
+
+.not-found a {
+  border-bottom: 1px solid #7B1FA2;
+  transition: all .25s ease;
+}
+
+.not-found a:hover {
+  border: 1px dashed #7B1FA2;
+  color: #7B1FA2;
+  padding: 10px;
+  background: #FFF;
+}

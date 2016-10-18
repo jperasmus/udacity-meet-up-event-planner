@@ -3,13 +3,14 @@ import React, {
   PropTypes,
 } from 'react';
 import { Link } from 'react-router';
+import './index.css';
 
 class NotFound extends Component {
   render() {
     return (
       <div className="not-found">
-        <h2>Four oh Four</h2>
-        <Link to="/">Take me home</Link>
+        <h1>Four-oh-Four</h1>
+        <Link to="/" className="">Take me home</Link>
       </div>
     );
   }

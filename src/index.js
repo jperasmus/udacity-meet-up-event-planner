@@ -4,6 +4,8 @@ import { BrowserRouter, Match, Miss } from 'react-router';
 import App from './components/App';
 import Home from './components/Home';
 import Event from './components/Event';
+import EventForm from './components/EventForm';
+import Profile from './components/Profile';
 import NotFound from './components/NotFound';
 import 'sanitize.css/sanitize.css';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
@@ -21,8 +23,8 @@ const Root = () => {
       <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
         <App>
           <Match exactly pattern="/" component={Home} />
-          {/*<Match exactly pattern="/new-event" component={EventForm} />*/}
-          {/*<Match exactly pattern="/profile" component={Profile} />*/}
+          <Match exactly pattern="/new-event" component={EventForm} />
+          <Match exactly pattern="/profile" component={Profile} />
           <Match pattern="/events/:eventId" component={Event} />
           <Miss component={NotFound} />
         </App>

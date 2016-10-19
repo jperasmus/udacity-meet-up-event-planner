@@ -12,6 +12,7 @@ module.exports = {
     endDate: '',
     openEvent: true,  // open to RSVP or invite only
     capacity: 50,
+    confirmCount: 12,
     owner: '',
     location: {},
     guests: {
@@ -55,6 +56,7 @@ module.exports = {
     endDate: '',
     openEvent: true,  // open to RSVP or invite only
     capacity: 50,
+    confirmCount: 12,
     owner: 'jperasmus11@gmail.com',
     location: {},
     guests: {
@@ -98,6 +100,7 @@ module.exports = {
     endDate: '',
     openEvent: true,  // open to RSVP or invite only
     capacity: 50,
+    confirmCount: 12,
     owner: '',
     location: {},
     guests: {
@@ -145,6 +148,7 @@ module.exports = {
     endDate: '',
     openEvent: true,  // open to RSVP or invite only
     capacity: 50,
+    confirmCount: 12,
     owner: '',
     location: {},
     guests: {
@@ -188,6 +192,7 @@ module.exports = {
     endDate: '',
     openEvent: true,  // open to RSVP or invite only
     capacity: 50,
+    confirmCount: 12,
     owner: 'howdie@partner.com',
     location: {},
     guests: {
@@ -231,6 +236,7 @@ module.exports = {
     endDate: '',
     openEvent: true,  // open to RSVP or invite only
     capacity: 50,
+    confirmCount: 12,
     owner: '',
     location: {},
     guests: {
@@ -274,6 +280,7 @@ module.exports = {
     endDate: '',
     openEvent: true,  // open to RSVP or invite only
     capacity: 50,
+    confirmCount: 12,
     owner: '',
     location: {},
     guests: {

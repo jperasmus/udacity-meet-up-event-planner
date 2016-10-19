@@ -8,11 +8,11 @@ class MobileTearSheet extends Component {
   
   static propTypes = {
     children: PropTypes.node,
-    height: PropTypes.number.isRequired,
+    minHeight: PropTypes.number.isRequired,
   };
   
   static defaultProps = {
-    height: 500,
+    minHeight: 400,
   };
   
   static contextTypes = {
@@ -32,7 +32,7 @@ class MobileTearSheet extends Component {
       container: {
         border: 'solid 1px #d9d9d9',
         borderBottom: 'none',
-        height: this.props.height,
+        minHeight: this.props.minHeight,
         overflow: 'hidden',
       },
       bottomTear: {

@@ -5,7 +5,7 @@ const style = {
   height: 80,
   width: '100%',
   padding: 15,
-  margin: 0,
+  marginTop: 15,
   fontSize: '.75rem',
   textAlign: 'left',
   display: 'block'
@@ -26,8 +26,5 @@ const Footer = (props) => {
     </Paper>
   );
 };
-
-Footer.propTypes = {};
-Footer.defaultProps = {};
 
 export default Footer;

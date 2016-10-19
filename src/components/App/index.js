@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import Header from '../Header';
 import Footer from '../Footer';
-import './index.css';
+import { Grid, Row, Col } from 'react-flexbox-grid';
+import styles from './index.scss';
 
 class App extends Component {
   render() {
     return (
-      <div className="app">
-        <div className="app-wrap">
+      <div className={styles.app}>
+        <div className={styles.appWrap}>
           <Header />
-          <main className="app-container">
+          <Grid>
             {this.props.children}
-          </main>
+          </Grid>
         </div>
         <Footer />
       </div>

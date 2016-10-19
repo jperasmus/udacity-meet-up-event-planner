@@ -40,6 +40,7 @@
     "http-proxy-middleware": "0.17.1",
     "jest": "15.1.1",
     "json-loader": "0.5.4",
+    "node-sass": "^3.10.1",
     "object-assign": "4.1.0",
     "path-exists": "2.1.0",
     "postcss-loader": "0.13.0",
@@ -47,6 +48,7 @@
     "react-dev-utils": "^0.2.1",
     "recursive-readdir": "2.1.0",
     "rimraf": "2.5.4",
+    "sass-loader": "^4.0.2",
     "strip-ansi": "3.0.1",
     "style-loader": "0.13.1",
     "url-loader": "0.5.7",
@@ -55,10 +57,14 @@
     "whatwg-fetch": "1.0.0"
   },
   "dependencies": {
+    "babel-polyfill": "^6.16.0",
+    "classnames": "^2.2.5",
+    "flexboxgrid": "^6.3.1",
     "material-ui": "^0.16.0",
     "re-base": "^2.2.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
+    "react-flexbox-grid": "^0.10.2",
     "react-router": "^4.0.0-alpha.4",
     "react-tap-event-plugin": "^1.0.0",
     "sanitize.css": "^4.1.0"

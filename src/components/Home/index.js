@@ -39,7 +39,7 @@ class Home extends Component {
     return (
       <div>
         <RaisedButton label="Load Sample Events" disabled={eventsExist} secondary={true} style={loadBtnStyles} onTouchTap={this.loadSampleEvents} />
-        <h1>Upcoming Events</h1>
+        <h2>Upcoming Events</h2>
         <EventsList events={events} showFilter={true} />
       </div>
     );

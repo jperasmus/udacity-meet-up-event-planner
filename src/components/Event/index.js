@@ -113,7 +113,10 @@ class Event extends Component {
                   </List>
                 </MobileTearSheet>
               </Col>
-              <Col xs={12} sm={8} md={9}>{description}</Col>
+              <Col xs={12} sm={8} md={9}>
+                {description}
+                {/* TODO: Add component for RSVP's/Guest list */}
+              </Col>
             </Row>
             <Divider />
             <div style={wrapperDivStyles}>

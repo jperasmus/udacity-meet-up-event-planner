@@ -9,6 +9,8 @@ $primary-text-color    : #212121;
 $secondary-text-color  : #757575;
 $divider-color         : #BDBDBD;
 $main-background-color : #F9F9F9;
+$primary-color         : #00bcd4;
+$secondary-color       : #f84081;
 
 html {
   font-size: 1em;
@@ -30,6 +32,11 @@ body > div {
 a {
   color: inherit;
   text-decoration: none;
+  transition: color .3s ease-in;
+
+  &:hover {
+    color: $primary-color;
+  }
 }
 
 h2 {

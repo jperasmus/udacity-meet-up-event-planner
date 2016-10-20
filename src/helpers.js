@@ -72,6 +72,7 @@ export const mapCodeToMessage = function(code) {
     'auth/user-disabled': 'That username and password combination is invalid.',
     'auth/invalid-email': 'That username and password combination is invalid.',
     'auth/wrong-password': 'That username and password combination is invalid.',
+    'auth/argument-error': 'You need to specify an email',
   };
   return phrases[code];
 };

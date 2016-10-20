@@ -15,6 +15,7 @@ class Login extends Component {
     super(props, context);
     
     this.onFieldChange = this.onFieldChange.bind(this);
+    this.onForgotPassword = this.onForgotPassword.bind(this);
     this.onSignUp = this.onSignUp.bind(this);
     this.onFormChange = this.onFormChange.bind(this);
     this.enableButton = this.enableButton.bind(this);
@@ -53,6 +54,13 @@ class Login extends Component {
     };
     
     this.validationEngine = new ValidationEngine(validationRules);
+  }
+  
+  onForgotPassword(e) {
+    e.preventDefault();
+    base.resetPassword({
+      email: this.state.email || ''
+    }, (err) => this.setState({ formError: mapCodeToMessage(err.code) || 'You made babies cry' }));
   }
 
   onSignUp(e) {
@@ -176,7 +184,7 @@ class Login extends Component {
               disabled={!this.state.canSubmit}
             />
             <div style={styles.forgotPassword}>
-              <a className="specialFont" style={styles.footerLink}>Forgot my password</a>
+              <a className="specialFont" style={styles.footerLink} onTouchTap={this.onForgotPassword}>Forgot my password</a>
               <span> | </span>
               <a className="specialFont" style={styles.footerLink} onTouchTap={this.onSignUp}>Sign me up</a>
             </div>

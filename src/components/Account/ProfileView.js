@@ -11,6 +11,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
+import Avatar from 'material-ui/Avatar';
 import {List, ListItem} from 'material-ui/List';
 import MobileTearSheet from '../MobileTearSheet';
 import { Grid, Row, Col } from 'react-flexbox-grid';
@@ -27,11 +28,7 @@ class ProfileView extends Component {
       user: null
     };
   }
-  
-  componentDidMount() {
-    this.initUser();
-  }
-  
+
   componentWillUnmount() {
     base.removeBinding(this.userRef);
   }
@@ -45,6 +42,9 @@ class ProfileView extends Component {
         context: this,
         state: 'user'
       });
+    } else {
+      // User is not logged in, redirect to login page
+      this.context.router.transitionTo('/login');
     }
   }
   
@@ -52,7 +52,6 @@ class ProfileView extends Component {
     const wrapperDivStyles = { textAlign: 'center', marginTop: '30px' };
     
     if (this.state && this.state.user) {
-      console.log('state', this.state.user);
       const styles = {
         paper: {
           width: '100%',
@@ -75,37 +74,45 @@ class ProfileView extends Component {
       };
       
       const {
-        uid, name, description, email, status,
-        otherLinks, startDate, endDate,
-        host, location, type, owner, capacity,
-        confirmCount, speakers, guests, files
+        uid,
+        email,
+        displayName,
+        firstName,
+        lastName,
+        employer,
+        website,
+        birthday,
+        facebook,
+        github,
+        twitter,
+        instagram,
+        eventsHosted,
+        eventsAttended,
       } = this.state.user;
-      
-      const hostLink = host && host.link && host.name ? <a href={host.link} target="_blank">{host.name}</a> : host.name;
-      const hostedBy = hostLink ? <span style={styles.hostedBy}>hosted by: {hostLink}</span> : '';
       
       return (
         <Grid>
           <Paper style={styles.paper} zDepth={1} rounded={false}>
-            <h1 style={{ textAlign: 'center' }}>{name}</h1>
-            {hostedBy}
+            <h1 style={{ textAlign: 'center' }}>Profile</h1>
             <Divider style={{ marginBottom: 20 }} />
             <Row>
               <Col xs={12} sm={3}>
                 <MobileTearSheet>
-                  <Subheader>My Details</Subheader>
+                  <Subheader>Details</Subheader>
                   <Divider/>
+                  <div style={{ textAlign: 'center', padding: 15 }}>
+                    <Avatar
+                      src={`https://api.adorable.io/avatars/180/${uid || 'rendezvous'}.png`}
+                      size={140}
+                      style={{ borderRadius: 0, width: '100%', maxWidth: 140 }}
+                    />
+                  </div>
                   <List>
-                    <ListItem disabled={true} primaryText={`${startDate} - ${endDate}`} leftIcon={<FontIcon className="material-icons">date_range</FontIcon>} />
-                    <ListItem disabled={true} primaryText={`${location || 'Location not set'}`} leftIcon={<FontIcon className="material-icons">room</FontIcon>} />
-                    <ListItem disabled={true} primaryText={`${type}`} leftIcon={<FontIcon className="material-icons">receipt</FontIcon>} />
-                    <ListItem disabled={true} primaryText={`${owner}`} leftIcon={<FontIcon className="material-icons">face</FontIcon>} />
-                    <ListItem disabled={true} primaryText={`${confirmCount || 0}/${capacity || '?'} spots`} leftIcon={<FontIcon className="material-icons">group</FontIcon>} />
+                    <ListItem disabled={true} primaryText={`${email}`} leftIcon={<FontIcon className="material-icons">face</FontIcon>} />
                   </List>
                 </MobileTearSheet>
               </Col>
               <Col xs={12} sm={9}>
-                {description}
               </Col>
             </Row>
             <Divider />
@@ -132,6 +139,8 @@ class ProfileView extends Component {
 ProfileView.propTypes = {
   params: PropTypes.object.isRequired
 };
-ProfileView.defaultProps = {};
+ProfileView.contextTypes = {
+  router: PropTypes.object
+};
 
 export default ProfileView;

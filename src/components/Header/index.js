@@ -34,11 +34,7 @@ class Header extends Component {
   }
   
   onLoginClick() {
-    // Simple email/password authentication spoof
-    base.authWithPassword({
-      email: 'jperasmus11@gmail.com',
-      password: 'helloyou'
-    }, this.authHandler);
+    this.context.router.transitionTo('/login');
   }
 
   onLogoutClick() {

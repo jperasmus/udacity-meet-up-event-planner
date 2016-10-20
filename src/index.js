@@ -5,6 +5,8 @@ import App from './components/App';
 import Home from './components/Home';
 import Event from './components/Event';
 import EventForm from './components/EventForm';
+import Login from './components/Account/Login';
+import Signup from './components/Account/Signup';
 import Profile from './components/Profile';
 import NotFound from './components/NotFound';
 import 'sanitize.css/sanitize.css';
@@ -25,6 +27,8 @@ const Root = () => {
           <Match exactly pattern="/" component={Home} />
           <Match exactly pattern="/new-event" component={EventForm} />
           <Match exactly pattern="/profile" component={Profile} />
+          <Match exactly pattern="/login" component={Login} />
+          <Match exactly pattern="/sign-up" component={Signup} />
           <Match pattern="/events/:eventId" component={Event} />
           <Miss component={NotFound} />
         </App>

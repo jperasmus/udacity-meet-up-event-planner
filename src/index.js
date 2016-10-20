@@ -5,9 +5,8 @@ import App from './components/App';
 import Home from './components/Home';
 import Event from './components/Event';
 import EventForm from './components/EventForm';
-import Login from './components/Account/Login';
-import Signup from './components/Account/Signup';
-import Profile from './components/Profile';
+import LoginOrSignUp from './components/Account/LoginOrSignUp';
+import ProfileView from './components/Account/ProfileView';
 import NotFound from './components/NotFound';
 import 'sanitize.css/sanitize.css';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
@@ -26,9 +25,9 @@ const Root = () => {
         <App>
           <Match exactly pattern="/" component={Home} />
           <Match exactly pattern="/new-event" component={EventForm} />
-          <Match exactly pattern="/profile" component={Profile} />
-          <Match exactly pattern="/login" component={Login} />
-          <Match exactly pattern="/sign-up" component={Signup} />
+          <Match exactly pattern="/profile" component={ProfileView} />
+          <Match exactly pattern="/login" component={LoginOrSignUp} />
+          <Match exactly pattern="/sign-up" component={LoginOrSignUp} />
           <Match pattern="/events/:eventId" component={Event} />
           <Miss component={NotFound} />
         </App>

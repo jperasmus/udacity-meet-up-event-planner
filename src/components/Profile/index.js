@@ -1,6 +1,5 @@
 import React, {
   Component,
-  PropTypes,
 } from 'react';
 import base from '../../base';
 
@@ -26,8 +25,5 @@ class Profile extends Component {
     );
   }
 }
-
-Profile.propTypes = {};
-Profile.defaultProps = {};
 
 export default Profile;

@@ -15,34 +15,44 @@ import {List, ListItem} from 'material-ui/List';
 import MobileTearSheet from '../MobileTearSheet';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 
-class Event extends Component {
+class ProfileView extends Component {
+  constructor(props, context) {
+    super(props, context);
+    
+    this.initUser = this.initUser.bind(this);
+    
+    base.onAuth(() => this.initUser());
+    
+    this.state = {
+      user: null
+    };
+  }
+  
   componentDidMount() {
-    // query the firebase database once for the data
-    this.eventRef = base.bindToState(`events/${this.props.params.eventId}`, {
-      context: this,
-      state: 'event'
-    })
+    this.initUser();
   }
   
   componentWillUnmount() {
-    base.removeBinding(this.eventRef);
+    base.removeBinding(this.userRef);
+  }
+  
+  initUser() {
+    console.log('initUser', base.getAuth());
+    const userRef = base.getAuth() && base.getAuth().uid || false;
+
+    if (userRef) {
+      this.userRef = base.bindToState(`users/${userRef}`, {
+        context: this,
+        state: 'user'
+      });
+    }
   }
   
   render() {
     const wrapperDivStyles = { textAlign: 'center', marginTop: '30px' };
     
-    if (this.state && this.state.event) {
-      if (Object.keys(this.state.event).length === 0) {
-        return (
-          <div style={wrapperDivStyles}>
-            <h1>Sorry, that event is gone...</h1>
-            <Link to="/">
-              <ActionFlightTakeoff style={{ height: '60px', width: '60px' }} />
-            </Link>
-          </div>
-        );
-      }
-      
+    if (this.state && this.state.user) {
+      console.log('state', this.state.user);
       const styles = {
         paper: {
           width: '100%',
@@ -65,24 +75,13 @@ class Event extends Component {
       };
       
       const {
-        name, description, openEvent, status,
+        uid, name, description, email, status,
         otherLinks, startDate, endDate,
         host, location, type, owner, capacity,
         confirmCount, speakers, guests, files
-      } = this.state.event;
+      } = this.state.user;
       
-      const speakersListItems = Object.keys(speakers)
-        .map((name, index) => {
-          const { name: speaker, topic, link } = Object.assign(speakers[name], { name });
-          const topicAndSpeaker = topic ? `${speaker} on "${topic}"` : speaker;
-          return (
-            <ListItem key={index} disabled={true}>
-              {link ? <a href={link} target="_blank">{topicAndSpeaker}</a> : topicAndSpeaker}
-            </ListItem>
-          );
-        });
-  
-      const hostLink = host.link && host.name ? <a href={host.link} target="_blank">{host.name}</a> : host.name;
+      const hostLink = host && host.link && host.name ? <a href={host.link} target="_blank">{host.name}</a> : host.name;
       const hostedBy = hostLink ? <span style={styles.hostedBy}>hosted by: {hostLink}</span> : '';
       
       return (
@@ -94,7 +93,7 @@ class Event extends Component {
             <Row>
               <Col xs={12} sm={3}>
                 <MobileTearSheet>
-                  <Subheader>The Details</Subheader>
+                  <Subheader>My Details</Subheader>
                   <Divider/>
                   <List>
                     <ListItem disabled={true} primaryText={`${startDate} - ${endDate}`} leftIcon={<FontIcon className="material-icons">date_range</FontIcon>} />
@@ -102,20 +101,11 @@ class Event extends Component {
                     <ListItem disabled={true} primaryText={`${type}`} leftIcon={<FontIcon className="material-icons">receipt</FontIcon>} />
                     <ListItem disabled={true} primaryText={`${owner}`} leftIcon={<FontIcon className="material-icons">face</FontIcon>} />
                     <ListItem disabled={true} primaryText={`${confirmCount || 0}/${capacity || '?'} spots`} leftIcon={<FontIcon className="material-icons">group</FontIcon>} />
-                    <ListItem
-                      primaryText="Speakers"
-                      leftIcon={<FontIcon className="material-icons">record_voice_over</FontIcon>}
-                      initiallyOpen={false}
-                      disabled={true}
-                      primaryTogglesNestedList={true}
-                      nestedItems={speakersListItems}
-                    />
                   </List>
                 </MobileTearSheet>
               </Col>
               <Col xs={12} sm={9}>
                 {description}
-                {/* TODO: Add component for RSVP's/Guest list */}
               </Col>
             </Row>
             <Divider />
@@ -139,9 +129,9 @@ class Event extends Component {
   
 }
 
-Event.propTypes = {
+ProfileView.propTypes = {
   params: PropTypes.object.isRequired
 };
-Event.defaultProps = {};
+ProfileView.defaultProps = {};
 
-export default Event;
+export default ProfileView;

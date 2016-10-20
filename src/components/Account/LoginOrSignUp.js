@@ -1,27 +1,32 @@
 import React, {
   Component,
-  PropTypes,
+  PropTypes
 } from 'react';
 import { ValidationEngine, mapCodeToMessage } from '../../helpers';
+import loginValidationRules from './loginValidationRules';
+import signupValidationRules from './signupValidationRules';
 import base from '../../base';
 import Paper from 'material-ui/Paper';
-import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
 
-class Login extends Component {
+/**
+ * Component used for both login and registration
+ */
+class LoginOrSignUp extends Component {
   constructor(props, context) {
     super(props, context);
     
     this.onFieldChange = this.onFieldChange.bind(this);
-    this.onForgotPassword = this.onForgotPassword.bind(this);
-    this.onSignUp = this.onSignUp.bind(this);
+    this.onForgotPasswordLinkClick = this.onForgotPasswordLinkClick.bind(this);
+    this.onFormSwitchClick = this.onFormSwitchClick.bind(this);
     this.onFormChange = this.onFormChange.bind(this);
-    this.enableButton = this.enableButton.bind(this);
-    this.disableButton = this.disableButton.bind(this);
+    this.enableSubmitButton = this.enableSubmitButton.bind(this);
+    this.disableSubmitButton = this.disableSubmitButton.bind(this);
     this.authHandler = this.authHandler.bind(this);
-    this.submitForm = this.submitForm.bind(this);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
+    this._s = this._s.bind(this);
 
     this.state = {
       emailError: '',
@@ -29,45 +34,30 @@ class Login extends Component {
       formError: '',
       canSubmit: false
     };
-
-    const validationRules = {
-      email: [
-        {
-          rule: 'required',
-          msg: 'Please provide an email'
-        },
-        {
-          rule: 'isEmail',
-          msg: 'Please provide a valid email'
-        }
-      ],
-      password: [
-        {
-          rule: 'required',
-          msg: 'Please provide a password'
-        },
-        {
-          rule: 'isStrongPassword',
-          msg: 'You need at least: 6+ characters, UPPERCASE letters, lowercase letters, numb3rs & special ch@racters'
-        }
-      ]
-    };
     
-    this.validationEngine = new ValidationEngine(validationRules);
+    this.isLogin = props.pathname === '/login';
+    this.validationEngine = new ValidationEngine(this._s(loginValidationRules, signupValidationRules));
   }
   
-  onForgotPassword(e) {
+  /**
+   * Method to help switch between Login and Sign-up options
+   */
+  _s(loginTrue, signUpTrue) {
+    return this.isLogin ? loginTrue : signUpTrue;
+  }
+  
+  onForgotPasswordLinkClick(e) {
     e.preventDefault();
     base.resetPassword({
       email: this.state.email || ''
     }, (err) => this.setState({ formError: mapCodeToMessage(err.code) || 'You made babies cry' }));
   }
-
-  onSignUp(e) {
-    e.preventDefault();
-    this.context.router.transitionTo('/sign-up');
-  }
   
+  onFormSwitchClick(e) {
+    e.preventDefault();
+    this.context.router.transitionTo(this._s('/sign-up', '/login'));
+  }
+
   onFieldChange(event, value) {
     const fieldName = event.target.name;
     const fieldError = this.validationEngine.isValid(fieldName, value);
@@ -87,32 +77,50 @@ class Login extends Component {
     });
   }
   
-  enableButton() {
-    this.setState({
-      canSubmit: true
-    });
+  enableSubmitButton() {
+    this.setState({ canSubmit: true });
   }
   
-  disableButton() {
-    this.setState({
-      canSubmit: false
-    });
+  disableSubmitButton() {
+    this.setState({ canSubmit: false });
   }
   
   authHandler(err, user) {
     if (err) {
       this.setState({
-        formError: mapCodeToMessage(err.code) || 'Login failed'
+        formError: mapCodeToMessage(err.code) || `${this._s('Login', 'Sign-up')} failed`
       });
-      return this.enableButton();
+      return this.enableSubmitButton();
     }
+    
+    // If new registration we need to create the basic user object structure
+    if (!this.isLogin && user) {
+      base.database().ref(`users/${user.uid}`).set({
+        uid: user.uid,
+        email: user.email,
+        displayName: '',
+        firstName: '',
+        lastName: '',
+        employer: '',
+        website: '',
+        birthday: '',
+        facebook: '',
+        github: '',
+        twitter: '',
+        instagram: '',
+        eventsHosted: {},
+        eventsAttended: {}
+      });
+    }
+    
     this.context.router.transitionTo('/profile');
   }
   
-  submitForm(e) {
+  onFormSubmit(e) {
     e.preventDefault();
-    this.disableButton();
-    base.authWithPassword({
+    this.disableSubmitButton();
+
+    base[this._s('authWithPassword', 'createUser')]({
       email: this.state.email,
       password: this.state.password
     }, this.authHandler);
@@ -147,19 +155,19 @@ class Login extends Component {
     
     return (
       <Paper style={styles.paper}>
-        <h1 style={styles.header}>Login</h1>
+        <h1 style={styles.header}>{this._s('Login', 'Sign-up')}</h1>
         <Snackbar
           open={!!this.state.formError}
           message={this.state.formError}
         />
-        <form onChange={this.onFormChange} onSubmit={this.submitForm}>
+        <form onChange={this.onFormChange} onSubmit={this.onFormSubmit}>
           {/* NOTE: HTML5 input attributes need to be specified in camelCase like autoComplete instead of autocomplete */}
           <TextField
             name="email"
             errorText={this.state.emailError}
             type="email"
             autoFocus
-            autoComplete="nope"
+            autoComplete="email"
             fullWidth={true}
             hintText="What is your email?"
             floatingLabelText="Email"
@@ -169,7 +177,7 @@ class Login extends Component {
             name="password"
             errorText={this.state.passwordError}
             type="password"
-            autoComplete="nope"
+            autoComplete="current-password"
             fullWidth={true}
             hintText="What is your password?"
             floatingLabelText="Password"
@@ -179,14 +187,16 @@ class Login extends Component {
             <RaisedButton
               style={styles.submit}
               type="submit"
-              label="Login"
+              label={this._s('Login', 'Sign-up')}
               secondary={true}
               disabled={!this.state.canSubmit}
             />
             <div style={styles.forgotPassword}>
-              <a className="specialFont" style={styles.footerLink} onTouchTap={this.onForgotPassword}>Forgot my password</a>
+              <a className="specialFont" style={styles.footerLink} onTouchTap={this.onForgotPasswordLinkClick}>Forgot my password</a>
               <span> | </span>
-              <a className="specialFont" style={styles.footerLink} onTouchTap={this.onSignUp}>Sign me up</a>
+              <a className="specialFont" style={styles.footerLink} onTouchTap={this.onFormSwitchClick}>
+                {this._s('Sign me up', 'I have an account')}
+              </a>
             </div>
           </div>
         </form>
@@ -195,8 +205,8 @@ class Login extends Component {
   }
 }
 
-Login.contextTypes = {
-  router: React.PropTypes.object
+LoginOrSignUp.contextTypes = {
+  router: PropTypes.object
 };
 
-export default Login;
+export default LoginOrSignUp;

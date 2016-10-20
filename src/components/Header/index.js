@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
-import Snackbar from 'material-ui/Snackbar';
-import Login from './Login';
-import Logged from './Logged';
+import LoggedOut from './LoggedOut';
+import LoggedIn from './LoggedIn';
 import base from '../../base';
 
 class Header extends Component {
@@ -10,55 +9,55 @@ class Header extends Component {
     super(props, context);
     
     this.handleTitleTouch = this.handleTitleTouch.bind(this);
-    this.logout = this.logout.bind(this);
+    this.onLogoutClick = this.onLogoutClick.bind(this);
     this.onLoginClick = this.onLoginClick.bind(this);
     this.authHandler = this.authHandler.bind(this);
 
     this.state = {
       logged: false
     };
+
+    base.onAuth((user) => {
+      this.setState({ logged: !!user });
+    });
   }
-  
+
   handleTitleTouch() {
     this.context.router.transitionTo('/');
   };
-  
-  logout() {
-    console.log('logout', base);
-    base.unauth();
-    this.setState({ logged: false });
-  }
-  
+
   authHandler(error, user) {
     if (error) {
-      console.error('error', error);
+      console.error('Error occurred when authenticated user', error);
     }
-    console.info('user logged in', user);
-    window.localStorage.setItem('rendezvous-user', user.uid);
-    this.setState({ logged: true });
+    // Nothing to do here, because handling login/logout state in `onAuth` listener
   }
   
   onLoginClick() {
-    // Simple email/password authentication
+    // Simple email/password authentication spoof
     base.authWithPassword({
       email: 'jperasmus11@gmail.com',
       password: 'helloyou'
     }, this.authHandler);
   }
-  
+
+  onLogoutClick() {
+    base.unauth();
+  }
+
   render() {
     const styles = {
       title: {
         cursor: 'pointer',
       },
     };
-    
+
     return (
       <AppBar
         title={<span style={styles.title}>Rendezvous</span>}
         onTitleTouchTap={this.handleTitleTouch}
         showMenuIconButton={false}
-        iconElementRight={this.state.logged ? <Logged onLogoutClick={this.logout} /> : <Login onLoginClick={this.onLoginClick} />}
+        iconElementRight={this.state.logged ? <LoggedIn onLogoutClick={this.onLogoutClick} /> : <LoggedOut onLoginClick={this.onLoginClick} />}
       />
     );
   }

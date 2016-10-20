@@ -6,7 +6,7 @@ import base from '../../base';
 
 class Profile extends Component {
   componentDidMount() {
-    const userRef = window.localStorage.getItem(`rendezvous-user`) || false;
+    const userRef = base.getAuth().uid || false;
     
     if (userRef) {
       this.userRef = base.bindToState(`users/${userRef}`, {

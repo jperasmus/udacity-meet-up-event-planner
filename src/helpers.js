@@ -1,3 +1,5 @@
+import base from './base';
+
 export const ValidationEngine = function(rules) {
   const validators = {
     required(value) {
@@ -66,7 +68,7 @@ export const ValidationEngine = function(rules) {
 };
 
 
-export const mapCodeToMessage = function(code) {
+export const mapCodeToMessage = (code) => {
   const phrases = {
     'auth/user-not-found': 'That username and password combination is invalid.',
     'auth/user-disabled': 'That username and password combination is invalid.',
@@ -75,4 +77,25 @@ export const mapCodeToMessage = function(code) {
     'auth/argument-error': 'You need to specify an email',
   };
   return phrases[code];
+};
+
+/**
+ * Create the object structure for a user in firebase.
+ * @param user Object At a minimum the user object should contain the uid and email of the user.
+ */
+export const createUserDBObject = (user) => {
+  base.database().ref(`users/${user.uid}`).set({
+    uid: user.uid,
+    email: user.email,
+    displayName: '',  // For something like a meet-up site we don't need to know the person's first name and last name separately
+    employer: '',
+    website: '',
+    birthday: '',
+    facebook: '',
+    github: '',
+    twitter: '',
+    instagram: '',
+    eventsHosted: {},
+    eventsAttended: {}
+  });
 };

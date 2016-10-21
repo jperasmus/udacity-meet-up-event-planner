@@ -2,7 +2,7 @@ import React, {
   Component,
   PropTypes
 } from 'react';
-import { ValidationEngine, mapCodeToMessage } from '../../helpers';
+import { ValidationEngine, mapCodeToMessage, createUserDBObject } from '../../helpers';
 import loginValidationRules from './loginValidationRules';
 import signupValidationRules from './signupValidationRules';
 import base from '../../base';
@@ -95,22 +95,7 @@ class LoginOrSignUp extends Component {
     
     // If new registration we need to create the basic user object structure
     if (!this.isLogin && user) {
-      base.database().ref(`users/${user.uid}`).set({
-        uid: user.uid,
-        email: user.email,
-        displayName: '',
-        firstName: '',
-        lastName: '',
-        employer: '',
-        website: '',
-        birthday: '',
-        facebook: '',
-        github: '',
-        twitter: '',
-        instagram: '',
-        eventsHosted: {},
-        eventsAttended: {}
-      });
+      createUserDBObject(user);
     }
     
     this.context.router.transitionTo('/profile');

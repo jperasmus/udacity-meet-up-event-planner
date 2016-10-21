@@ -65,7 +65,9 @@
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-flexbox-grid": "^0.10.2",
+    "react-motion": "^0.4.5",
     "react-router": "^4.0.0-alpha.4",
+    "react-swipeable-views": "^0.7.10",
     "react-tap-event-plugin": "^1.0.0",
     "sanitize.css": "^4.1.0"
   },

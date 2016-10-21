@@ -7,9 +7,38 @@ import loginValidationRules from './loginValidationRules';
 import signupValidationRules from './signupValidationRules';
 import base from '../../base';
 import Paper from 'material-ui/Paper';
+import Checkbox from 'material-ui/Checkbox';
+import DatePicker from 'material-ui/DatePicker';
+import Subheader from 'material-ui/Subheader';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
+
+const styles = {
+  header: {
+    marginTop: 0,
+    textAlign: 'center'
+  },
+  paper: {
+    width: '100%',
+    maxWidth: 400,
+    margin: '20px auto 10px',
+    padding: 20
+  },
+  submit: {
+    marginTop: 30,
+  },
+  footer: {
+    textAlign: 'center'
+  },
+  footerLink: {
+    cursor: 'pointer'
+  },
+  forgotPassword: {
+    marginTop: 10,
+    marginBottom: 10,
+  }
+};
 
 /**
  * Component used for both login and registration
@@ -19,6 +48,7 @@ class LoginOrSignUp extends Component {
     super(props, context);
     
     this.onFieldChange = this.onFieldChange.bind(this);
+    this.onBirthdayChange = this.onBirthdayChange.bind(this);
     this.onForgotPasswordLinkClick = this.onForgotPasswordLinkClick.bind(this);
     this.onFormSwitchClick = this.onFormSwitchClick.bind(this);
     this.onFormChange = this.onFormChange.bind(this);
@@ -29,8 +59,12 @@ class LoginOrSignUp extends Component {
     this._s = this._s.bind(this);
 
     this.state = {
+      displayNameError: '',
       emailError: '',
       passwordError: '',
+      websiteError: '',
+      employerError: '',
+      birthdayError: '',
       formError: '',
       canSubmit: false
     };
@@ -68,6 +102,16 @@ class LoginOrSignUp extends Component {
     });
   }
   
+  onBirthdayChange(event, date) {
+    const fieldName = 'birthday';
+    const fieldError = this.validationEngine.isValid(fieldName, date);
+  
+    this.setState({
+      [`${fieldName}Error`]: fieldError,
+      [fieldName]: date
+    });
+  }
+  
   onFormChange() {
     window.setTimeout(() => {
       this.setState({
@@ -95,7 +139,7 @@ class LoginOrSignUp extends Component {
     
     // If new registration we need to create the basic user object structure
     if (!this.isLogin && user) {
-      createUserDBObject(user);
+      createUserDBObject(Object.assign({}, user, this.state, { birthday: this.state.birthday ? (this.state.birthday).toString() : '' }));
     }
     
     this.context.router.transitionTo('/profile');
@@ -112,32 +156,6 @@ class LoginOrSignUp extends Component {
   }
   
   render() {
-    const styles = {
-      header: {
-        marginTop: 0,
-        textAlign: 'center'
-      },
-      paper: {
-        width: '100%',
-        maxWidth: 400,
-        margin: '20px auto 10px',
-        padding: 20
-      },
-      submit: {
-        marginTop: 30,
-      },
-      footer: {
-        textAlign: 'center'
-      },
-      footerLink: {
-        cursor: 'pointer'
-      },
-      forgotPassword: {
-        marginTop: 10,
-        marginBottom: 10,
-      }
-    };
-    
     return (
       <Paper style={styles.paper}>
         <h1 style={styles.header}>{this._s('Login', 'Sign-up')}</h1>
@@ -147,11 +165,25 @@ class LoginOrSignUp extends Component {
         />
         <form onChange={this.onFormChange} onSubmit={this.onFormSubmit}>
           {/* NOTE: HTML5 input attributes need to be specified in camelCase like autoComplete instead of autocomplete */}
+          {
+            !this.isLogin
+              ? <TextField
+                name="displayName"
+                errorText={this.state.displayNameError}
+                type="text"
+                autoFocus
+                autoComplete="name"
+                fullWidth={true}
+                hintText="What should we call you?"
+                floatingLabelText="Your name"
+                onChange={this.onFieldChange}
+              />
+              : ''
+          }
           <TextField
             name="email"
             errorText={this.state.emailError}
             type="email"
-            autoFocus
             autoComplete="email"
             fullWidth={true}
             hintText="What is your email?"
@@ -168,6 +200,49 @@ class LoginOrSignUp extends Component {
             floatingLabelText="Password"
             onChange={this.onFieldChange}
           />
+          {
+            !this.isLogin
+              ? <div>
+                  <Subheader style={{ textAlign: 'center' }}>Optional Fields</Subheader>
+                  <TextField
+                    name="website"
+                    errorText={this.state.websiteError}
+                    type="url"
+                    autoComplete="off"
+                    fullWidth={true}
+                    hintText="Share your website"
+                    floatingLabelText="Website"
+                    onChange={this.onFieldChange}
+                  />
+                  <TextField
+                    name="employer"
+                    errorText={this.state.employerError}
+                    type="text"
+                    autoComplete="off"
+                    fullWidth={true}
+                    hintText="Where do you work?"
+                    floatingLabelText="Company"
+                    onChange={this.onFieldChange}
+                  />
+                  <DatePicker
+                    name="birthday"
+                    value={this.state.birthday}
+                    floatingLabelText="Birthday"
+                    errorText={this.state.birthdayError}
+                    mode="landscape"
+                    autoOk={true}
+                    maxDate={new Date()}
+                    fullWidth={true}
+                    onChange={this.onBirthdayChange}
+                  />
+                  <Checkbox
+                    label="I agree this site is cool"
+                    defaultChecked={true}
+                    style={{ marginTop: 15 }}
+                  />
+                </div>
+              : ''
+          }
           <div style={styles.footer}>
             <RaisedButton
               style={styles.submit}

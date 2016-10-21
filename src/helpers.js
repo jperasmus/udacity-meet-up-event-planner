@@ -83,18 +83,18 @@ export const mapCodeToMessage = (code) => {
  * Create the object structure for a user in firebase.
  * @param user Object At a minimum the user object should contain the uid and email of the user.
  */
-export const createUserDBObject = (user) => {
-  base.database().ref(`users/${user.uid}`).set({
-    uid: user.uid,
-    email: user.email,
-    displayName: '',  // For something like a meet-up site we don't need to know the person's first name and last name separately
-    employer: '',
-    website: '',
-    birthday: '',
-    facebook: '',
-    github: '',
-    twitter: '',
-    instagram: '',
+export const createUserDBObject = (data) => {
+  base.database().ref(`users/${data.uid}`).set({
+    uid: data.uid,
+    email: data.email,
+    displayName: data.displayName || '',  // For something like a meet-up site we don't need to know the person's first name and last name separately
+    employer: data.employer || '',
+    website: data.website || '',
+    birthday: data.birthday || '',
+    facebook: data.facebook || '',
+    github: data.github || '',
+    twitter: data.twitter || '',
+    instagram: data.instagram || '',
     eventsHosted: {},
     eventsAttended: {}
   });

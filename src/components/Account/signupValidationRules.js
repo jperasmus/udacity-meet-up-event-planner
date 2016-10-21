@@ -1,4 +1,10 @@
 export default {
+  displayName: [
+    {
+      rule: 'required',
+      msg: 'We need to know what to call you'
+    }
+  ],
   email: [
     {
       rule: 'required',

@@ -1,0 +1,18 @@
+$secondary-color : #f84081;
+
+.notFound {
+  text-align: center;
+
+  a {
+    border-bottom: 1px solid $secondary-color;
+    transition: all .25s ease;
+
+    &:hover {
+      border: 1px dashed $secondary-color;
+      color: $secondary-color;
+      padding: 10px;
+      background: #FFF;
+    }
+  }
+}
+
